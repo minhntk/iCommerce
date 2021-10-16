@@ -1,4 +1,6 @@
 rootProject.name = 'iCommerce'
 
+include 'backend-core'
 include 'backend-product'
 include 'backend-order'
+include 'backend-user'

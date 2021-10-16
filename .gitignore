@@ -15,3 +15,15 @@ backend-product/.gradle
 backend-product/build
 backend-product/gradlew.bat
 backend-product/gradlew
+
+backend-user/gradle
+backend-user/.gradle
+backend-user/build
+backend-user/gradlew.bat
+backend-user/gradlew
+
+backend-core/gradle
+backend-core/.gradle
+backend-core/build
+backend-core/gradlew.bat
+backend-core/gradlew

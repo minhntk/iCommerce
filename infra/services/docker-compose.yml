@@ -60,35 +60,11 @@ services:
     ports:
       - 5432:5432
     environment:
-      - POSTGRES_MULTIPLE_DATABASES="t_product","t_order"
+      - POSTGRES_MULTIPLE_DATABASES="t_product","t_order","t_user"
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=aDminiCom@!23
     volumes:
       - db-data:/var/lib/postgresql/data
-
-#  db-product:
-#    image: 'postgres:13.1-alpine'
-#    container_name: db-product
-#    ports:
-#      - 5432:5432
-#    environment:
-#      - POSTGRES_DB=product
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=aDminiCom@!23
-#    volumes:
-#      - db-product-data:/var/lib/postgresql/data
-#
-#  db-order:
-#    image: 'postgres:13.1-alpine'
-#    container_name: db-order
-#    ports:
-#      - 5433:5432
-#    environment:
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=aDminiCom@!23
-#      - POSTGRES_DB=order
-#    volumes:
-#      - db-order-data:/var/lib/postgresql/data
 
 volumes:
   db-data:

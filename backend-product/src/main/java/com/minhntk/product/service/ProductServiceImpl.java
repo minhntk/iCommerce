@@ -1,6 +1,6 @@
 package com.minhntk.product.service;
 
-import com.minhntk.product.dto.SavedProductDTO;
+import com.minhntk.product.dto.request.SavedProductDTO;
 import com.minhntk.product.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 

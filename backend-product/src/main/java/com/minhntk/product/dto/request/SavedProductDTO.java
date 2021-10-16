@@ -1,4 +1,4 @@
-package com.minhntk.product.dto;
+package com.minhntk.product.dto.request;
 
 import lombok.Data;
 
