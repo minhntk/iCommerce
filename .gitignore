@@ -1,0 +1,17 @@
+/.gradle/
+/.idea/
+/gradle/
+/gradlew.bat
+/gradlew
+
+backend-order/gradle
+backend-order/.gradle
+backend-order/build
+backend-order/gradlew.bat
+backend-order/gradlew
+
+backend-product/gradle
+backend-product/.gradle
+backend-product/build
+backend-product/gradlew.bat
+backend-product/gradlew

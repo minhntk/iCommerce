@@ -1,0 +1,96 @@
+version: '2'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  backend-product:
+    image: 'backend-product:latest'
+    build:
+      context: .
+    container_name: backend-product
+    ports:
+      - 8080:8080
+      - 5432
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/t_product
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=aDminiCom@!23
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  backend-order:
+    image: 'backend-order:latest'
+    build:
+      context: .
+    container_name: backend-order
+    ports:
+      - 8081:8080
+      - 5432
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/t_order
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=aDminiCom@!23
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  db:
+    image: 'postgres-db'
+    container_name: db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_MULTIPLE_DATABASES="t_product","t_order"
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=aDminiCom@!23
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+#  db-product:
+#    image: 'postgres:13.1-alpine'
+#    container_name: db-product
+#    ports:
+#      - 5432:5432
+#    environment:
+#      - POSTGRES_DB=product
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=aDminiCom@!23
+#    volumes:
+#      - db-product-data:/var/lib/postgresql/data
+#
+#  db-order:
+#    image: 'postgres:13.1-alpine'
+#    container_name: db-order
+#    ports:
+#      - 5433:5432
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=aDminiCom@!23
+#      - POSTGRES_DB=order
+#    volumes:
+#      - db-order-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
+#  db-product-data:
+#  db-order-data:
