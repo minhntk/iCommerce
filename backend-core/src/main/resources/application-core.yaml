@@ -1,0 +1,18 @@
+spring:
+  writer-data-source:
+    hikari:
+      poolName: writer
+      maximum-pool-size: 10
+      connection-timeout: 20000
+      max-lifetime: 900000
+      leak-detection-threshold: 700000
+      idle-timeout: 600000
+
+  read-data-source:
+    hikari:
+      poolName: reader
+      maximum-pool-size: 30
+      connection-timeout: 20000
+      max-lifetime: 900000
+      leak-detection-threshold: 700000
+      idle-timeout: 600000
