@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: backend-order
   datasource:
     url: jdbc:postgresql://localhost:5432/t_order
     username: admin
@@ -24,3 +26,8 @@ icom:
   services:
     product:
       url: http://127:0:0:1:8081
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${SERVICE_REGISTER_URI:http://localhost:8761/eureka/}

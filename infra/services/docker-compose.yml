@@ -22,17 +22,35 @@ services:
 #      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
 #      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
+  backend-discovery:
+    image: 'backend-discovery:latest'
+    healthcheck:
+      test: "exit 0"
+    build:
+      context: .
+    container_name: backend-discovery
+    mem_limit: 512m
+    mem_reservation: 256m
+    ports:
+      - 8761:8761
+
   backend-product:
     image: 'backend-product:latest'
     build:
       context: .
     container_name: backend-product
+    mem_limit: 512m
+    mem_reservation: 256m
     ports:
       - 8081:8080
       - 5432
     depends_on:
-      - db
+      backend-discovery:
+        condition: service_healthy
+      db:
+        condition: service_healthy
     environment:
+      - eureka.client.serviceUrl.defaultZone=http://backend-discovery:8761/eureka/
       - SPRING_DATASOURCE_READER_URL=jdbc:postgresql://db:5432/t_product
       - SPRING_DATASOURCE_READER_USERNAME=admin
       - SPRING_DATASOURCE_READER_PASSWORD=aDminiCom@!23
@@ -45,13 +63,19 @@ services:
     image: 'backend-order:latest'
     build:
       context: .
-    container_name: backend-order
+#    container_name: backend-order
+    mem_limit: 512m
+    mem_reservation: 256m
     ports:
-      - 8082:8080
+      - "8082-8087:8080"
       - 5432
     depends_on:
-      - db
+      backend-discovery:
+        condition: service_healthy
+      db:
+        condition: service_healthy
     environment:
+      - SERVICE_REGISTER_URI=http://backend-discovery:8761/eureka/
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/t_order
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=aDminiCom@!23
@@ -62,19 +86,47 @@ services:
     build:
       context: .
     container_name: backend-user
+    mem_limit: 512m
+    mem_reservation: 256m
     ports:
-      - 8083:8080
+      - 8088:8080
       - 5432
     depends_on:
-      - db
+      backend-discovery:
+        condition: service_healthy
+      db:
+        condition: service_healthy
     environment:
+      - SERVICE_REGISTER_URI=http://backend-discovery:8761/eureka/
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/t_user
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=aDminiCom@!23
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
+  backend-gateway:
+    image: 'backend-gateway:latest'
+    build:
+      context: .
+    container_name: backend-gateway
+    mem_limit: 512m
+    mem_reservation: 256m
+    ports:
+      - 8080:8080
+    depends_on:
+      - backend-user
+      - backend-product
+      - backend-order
+    environment:
+      - SERVICE_REGISTER_URI= http://backend-discovery:8761/eureka/
+      - PRODUCT_URI= http://backend-product:8080/
+      - PRODUCT_ID= backend-product
+      - ORDER_URI= http://backend-order:8080/
+      - ORDER_ID= backend-order
+
   db:
     image: 'postgres-db'
+    healthcheck:
+      test: "exit 0"
     container_name: db
     ports:
       - 5432:5432

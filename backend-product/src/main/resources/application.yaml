@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: backend-product
   datasource:
     reader:
       url: jdbc:postgresql://localhost:5432/t_product
@@ -45,3 +47,11 @@ logging:
         web: DEBUG
         jdbc:
           core: TRACE
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+springdoc:
+  swagger-ui:
+    path: "/swagger.html"
