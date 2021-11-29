@@ -34,6 +34,7 @@ dependencies {
 //	}
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.5.2'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	implementation project(':backend-core')
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

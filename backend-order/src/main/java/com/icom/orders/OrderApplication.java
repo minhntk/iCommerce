@@ -1,17 +1,17 @@
-package com.icom.products;
+package com.icom.orders;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication(scanBasePackages = "com.icom")
+@SpringBootApplication(scanBasePackages = "com.icom.orders.*")
 @EnableDiscoveryClient
 @EnableFeignClients
-public class ProductApplication {
+public class OrderApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(ProductApplication.class, args);
+    SpringApplication.run(OrderApplication.class, args);
   }
 
 }

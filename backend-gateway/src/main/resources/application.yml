@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: api-gateway
+    name: icom-api-gateway
   cloud:
     gateway:
       routes:
@@ -14,7 +14,13 @@ spring:
         - id: ${ORDER_ID:backend-order}
           uri: ${ORDER_URI:http://localhost:8081}
           predicates:
-            - Path=/v1/order/**
+            - Path=/v1/orders/**
+        - id: eureka-api
+          uri: ${EUREKA_URI:http://localhost:8761/}
+          predicates:
+            - Path=/eureka/api/{segment}
+          filters:
+            - SetPath=/eureka/{segment}
 eureka:
   client:
     serviceUrl:
@@ -22,3 +28,12 @@ eureka:
     register-with-eureka: false
   instance:
     preferIpAddress: true
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
+    org.springframework.cloud.gateway: TRACE
+

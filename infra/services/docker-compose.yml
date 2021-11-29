@@ -38,11 +38,11 @@ services:
     image: 'backend-product:latest'
     build:
       context: .
-    container_name: backend-product
+#    container_name: backend-product
     mem_limit: 512m
     mem_reservation: 256m
     ports:
-      - 8081:8080
+      - "8081-8082:8080"
       - 5432
     depends_on:
       backend-discovery:
@@ -50,7 +50,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      - eureka.client.serviceUrl.defaultZone=http://backend-discovery:8761/eureka/
+      - SERVICE_REGISTER_URI=http://backend-discovery:8761/eureka/
       - SPRING_DATASOURCE_READER_URL=jdbc:postgresql://db:5432/t_product
       - SPRING_DATASOURCE_READER_USERNAME=admin
       - SPRING_DATASOURCE_READER_PASSWORD=aDminiCom@!23
@@ -67,7 +67,7 @@ services:
     mem_limit: 512m
     mem_reservation: 256m
     ports:
-      - "8082-8087:8080"
+      - "8083-8084:8080"
       - 5432
     depends_on:
       backend-discovery:
@@ -80,6 +80,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=aDminiCom@!23
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - PRODUCT_SERVICE_NAME= icom-product-service
 
   backend-user:
     image: 'backend-user:latest'
@@ -117,10 +118,11 @@ services:
       - backend-product
       - backend-order
     environment:
+      - EUREKA_URI= http://backend-discovery:8761/
       - SERVICE_REGISTER_URI= http://backend-discovery:8761/eureka/
-      - PRODUCT_URI= http://backend-product:8080/
+      - PRODUCT_URI= lb://icom-product-service/
       - PRODUCT_ID= backend-product
-      - ORDER_URI= http://backend-order:8080/
+      - ORDER_URI= lb://icom-order-service/
       - ORDER_ID= backend-order
 
   db:
