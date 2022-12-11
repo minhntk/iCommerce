@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Properties>
+    <Property name="PH_SERVICE">Card_Processing</Property>
+    <Property name="console-layout-pattern">%blue{%d{ISO8601}} %highlight{%-5level} %magenta{[${env:PH_SERVICE},%t, %X{traceId} , %X{spanId} , %X{correlationId} ]} %C{1.}(%L): - %msg%n</Property>
+  </Properties>
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="${console-layout-pattern}"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="info" includeLocation="true">
+      <AppenderRef ref="Console"/>
+    </Root>
+  </Loggers>
+</Configuration>

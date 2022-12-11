@@ -5,7 +5,7 @@ import com.icom.orders.order.dto.response.OrderDetailDTO;
 import com.icom.orders.order.service.OrderService;
 import com.sun.istack.NotNull;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,14 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1/orders/")
+@RequiredArgsConstructor
 public class OrderController {
 
   private final OrderService orderService;
-
-  @Autowired
-  OrderController(OrderService orderService) {
-    this.orderService = orderService;
-  }
 
   @PostMapping
   public String addOrder(@RequestBody OrderDTO orderDTO) throws Exception {
@@ -39,8 +35,8 @@ public class OrderController {
     return null;
   }
 
-  @GetMapping(path = "/user/{email}")
-  public List<OrderDetailDTO> getOrders(@PathVariable @NotNull String email) {
-    return orderService.getOrdersByEmail(email);
+  @GetMapping(path = "/user/{userId}")
+  public List<OrderDTO> getOrders(@PathVariable @NotNull Long userId) {
+    return orderService.getListOrderOfUser(userId);
   }
 }

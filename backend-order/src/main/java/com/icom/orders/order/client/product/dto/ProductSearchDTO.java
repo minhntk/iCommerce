@@ -1,4 +1,4 @@
-package com.icom.orders.client.product.dto;
+package com.icom.orders.order.client.product.dto;
 
 import java.util.List;
 import lombok.Data;

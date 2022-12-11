@@ -1,16 +1,27 @@
+server.port: 8081
 spring:
+  profiles:
+    active: "${SPRING_PROFILES_ACTIVE:local}"
   application:
     name: icom-order-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/t_order
-    username: admin
-    password: aDminiCom@!23
+    url: jdbc:mysql://localhost:3306/i_order
+    username: root
+    password: root
   jpa:
+    database: MYSQL
+    openInView: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: create
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        # https://docs.jboss.org/hibernate/stable/core.old/reference/en/html/configuration-optional.html
+        jdbc:
+          batch_size: 25
+          batch_versioned_data: true
+          time_zone: UTC
+        order_inserts: true
+        order_updates: true
+        show_sql: false
 
   flyway:
     baseline-on-migrate: true

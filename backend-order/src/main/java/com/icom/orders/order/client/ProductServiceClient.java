@@ -1,16 +1,15 @@
-package com.icom.orders.client;
+package com.icom.orders.order.client;
 
-import com.icom.orders.client.product.dto.ProductSearchDTO;
+import com.icom.orders.order.client.product.dto.ProductSearchDTO;
 import com.icom.orders.order.dto.response.ProductDetailDTO;
-import org.springframework.cloud.openfeign.FeignClient;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.List;
 
-@FeignClient(name="icom-product-service")
 public interface ProductServiceClient {
 
   @GetMapping("v1/products/get")

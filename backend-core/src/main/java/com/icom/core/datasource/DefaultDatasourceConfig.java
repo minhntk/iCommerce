@@ -6,6 +6,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,7 +22,7 @@ import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@Slf4j
+@Log4j2
 @Configuration
 @ConditionalOnClass({DataSource.class})
 @EnableTransactionManagement

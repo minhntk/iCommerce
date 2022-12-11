@@ -1,72 +1,27 @@
-DROP SEQUENCE IF EXISTS sq_delivery_transaction_id;
-
-create table i_order_status
+CREATE TABLE IF NOT EXISTS `order`
 (
-    id                          int,
-    name                        varchar(64),
-    constraint pk_order_status primary key (id)
-);
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` BIGINT NOT NULL,
+    `status` VARCHAR(50) NOT NULL,
+    `required_at` DATETIME,
+    `delivered_at` DATETIME,
+    `created_date` DATETIME NOT NULL,
+    `updated_date` DATETIME DEFAULT NULL,
+    INDEX idx__user_id (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-insert into i_order_status (id, name)
-values (1, 'IN_PROGRESS'),
-       (2, 'SHIPPING'),
-       (3, 'COMPLETED'),
-       (4, 'DENY');
-
-
-create table if not exists i_order
+CREATE TABLE IF NOT EXISTS `order_item`
 (
-    id                                          varchar(256)         not null,
-    order_by                                    varchar(256)         not null,
-    order_email                                 varchar(256)         not null,
-    order_phone                                 varchar(16)          not null,
-    status                                      int                  not null default 1,
-    created                                     timestamp   not null default now(),
-    constraint pk_order_transaction primary key (id),
-    constraint fk_order_status foreign key (status) references i_order_status (id)
-);
-
-create table i_order_item_status
-(
-    id                                          int,
-    name                                        varchar(64),
-    constraint pk_order_item_status primary key (id)
-);
-
-insert into i_order_item_status (id, name)
-values (1, 'AVAILABLE'),
-       (2, 'OUT_OF_STOCK'),
-       (3, 'DENY');
-
-create table if not exists i_order_item
-(
-    id                                          bigint               GENERATED ALWAYS AS IDENTITY,
-    product_id                                  varchar(256)         not null,
-    order_transaction_id                        varchar(256)         not null,
-    quantity                                    float                not null,
-    status                                      int                  not null default 1,
-    created                                     timestamp            not null default now(),
-    updated                                     timestamp            not null default now(),
-    constraint pk_order_item primary key (id)
-);
-
-create or replace function trigger_set_timestamp()
-    returns trigger as
-$trigger_set_timestamp$
-begin
-    new.created = now();
-    return new;
-end;
-$trigger_set_timestamp$ language plpgsql;
-
-create trigger order_set_timestamp
-    before insert
-    on i_order
-    for each row
-execute procedure trigger_set_timestamp();
-
-create trigger order_item_set_timestamp
-    before insert
-    on i_order_item
-    for each row
-execute procedure trigger_set_timestamp();
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `order_id` BIGINT NOT NULL,
+    `item_id` BIGINT NOT NULL,
+    `inventory_id` BIGINT NOT NULL,
+    `name` VARCHAR(50),
+    `status` VARCHAR(50) NOT NULL,
+    `quantity` INT NOT NULL,
+    `required_at` DATETIME,
+    `created_date` DATETIME NOT NULL,
+    `updated_date` DATETIME DEFAULT NULL,
+    INDEX idx__order_id (`order_id`),
+    FOREIGN KEY (`order_id`) REFERENCES `order`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
