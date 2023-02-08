@@ -1,0 +1,3 @@
+rootProject.name = 'backend-store'
+
+include('backend-core')

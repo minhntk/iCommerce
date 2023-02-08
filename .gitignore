@@ -10,11 +10,11 @@ backend-order/build
 backend-order/gradlew.bat
 backend-order/gradlew
 
-backend-product/gradle
-backend-product/.gradle
-backend-product/build
-backend-product/gradlew.bat
-backend-product/gradlew
+backend-store/gradle
+backend-store/.gradle
+backend-store/build
+backend-store/gradlew.bat
+backend-store/gradlew
 
 backend-user/gradle
 backend-user/.gradle

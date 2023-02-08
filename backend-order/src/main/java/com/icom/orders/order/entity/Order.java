@@ -1,8 +1,7 @@
 package com.icom.orders.order.entity;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,13 +12,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.BatchSize;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -32,7 +33,7 @@ public class Order extends Auditable {
   private Long id;
 
   @Column(name = "user_id")
-  private Long userId;
+  private String userId;
 
   @Column(name = "status")
   private String status;
@@ -40,8 +41,8 @@ public class Order extends Auditable {
   @Column(name = "delivered_at")
   private LocalDateTime deliveryAt;
 
-  @OneToMany(mappedBy = "order")
-  @BatchSize(size=25)
-  private List<OrderItem> orderItems = new ArrayList<>();
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
+  @BatchSize(size = 25)
+  private Set<OrderItem> orderItems;
 
 }

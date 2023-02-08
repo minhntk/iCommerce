@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+  <Properties>
+    <Property name="PH_SERVICE">Order_Service</Property>
+    <Property name="filename">logs/app.log</Property>
+    <Property name="console-layout-pattern">%blue{%d{ISO8601}} %highlight{%-5level} %magenta{[${env:PH_SERVICE},%t, %X{traceId} , %X{spanId} , %X{correlationId} ]} %C{1.}(%L): - %msg%n</Property>
+  </Properties>
+  <Appenders>
+    <Appender type="Console" name="STDOUT">
+      <PatternLayout pattern="${console-layout-pattern}"/>
+    </Appender>
+    <Appender type="File" name="File" fileName="${filename}">
+      <Layout type="PatternLayout">
+        <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+      </Layout>
+    </Appender>
+  </Appenders>
+  <Loggers>
+<!--    <Logger name="org.hibernate.SQL" level="debug" additivity="false">-->
+<!--      <AppenderRef ref="File"/>-->
+<!--    </Logger>-->
+    <Root level="debug" includeLocation="true">
+      <AppenderRef ref="Console"/>
+      <AppenderRef ref="File"/>
+    </Root>
+  </Loggers>
+</Configuration>

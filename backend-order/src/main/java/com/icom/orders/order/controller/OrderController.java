@@ -1,11 +1,12 @@
 package com.icom.orders.order.controller;
 
-import com.icom.orders.order.dto.request.OrderDTO;
-import com.icom.orders.order.dto.response.OrderDetailDTO;
+import com.icom.orders.order.controller.dto.request.OrderDTO;
+import com.icom.orders.order.controller.dto.response.OrderDetailDTO;
 import com.icom.orders.order.service.OrderService;
 import com.sun.istack.NotNull;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/orders/")
 @RequiredArgsConstructor
+@Log4j2
 public class OrderController {
 
   private final OrderService orderService;
@@ -36,7 +38,8 @@ public class OrderController {
   }
 
   @GetMapping(path = "/user/{userId}")
-  public List<OrderDTO> getOrders(@PathVariable @NotNull Long userId) {
+  public List<OrderDTO> getOrders(@PathVariable @NotNull String userId) {
+    log.info("Get Orders of user {}", userId);
     return orderService.getListOrderOfUser(userId);
   }
 }

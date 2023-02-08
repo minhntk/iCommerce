@@ -4,9 +4,10 @@ plugins {
 	id 'java'
 }
 
-group = 'com.minhtnk'
+group = 'com.icom'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 configurations {
 	compileOnly {
@@ -14,17 +15,13 @@ configurations {
 	}
 }
 
-ext {
-	set('springCloudVersion', "2021.0.2")
-	set('openfeignVersion', '3.0.5')
-}
-
 repositories {
 	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
 }
 
-jar {
-	enabled = false
+ext {
+	set('springCloudVersion', "2020.0.4")
 }
 
 dependencies {
@@ -33,25 +30,13 @@ dependencies {
 	implementation 'org.flywaydb:flyway-core:7.15.0'
 	runtimeOnly 'mysql:mysql-connector-java'
 
-	implementation 'io.github.resilience4j:resilience4j-spring-boot2'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-aop'
-
-	implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${openfeignVersion}"
-	implementation "org.springframework.cloud:spring-cloud-openfeign-core:${openfeignVersion}"
-	implementation 'io.github.openfeign:feign-okhttp'
-
 	// Spring Cloud
 //	implementation('org.springframework.cloud:spring-cloud-starter-openfeign') {
 //		exclude group: 'io.github.openfeign', module: 'feign-hystrix'
 //	}
-//	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
-
-//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {

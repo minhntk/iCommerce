@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `order`
 (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
-    `user_id` BIGINT NOT NULL,
+    `user_id` VARCHAR(50) NOT NULL,
     `status` VARCHAR(50) NOT NULL,
     `required_at` DATETIME,
     `delivered_at` DATETIME,
@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS `order_item`
 (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `order_id` BIGINT NOT NULL,
-    `item_id` BIGINT NOT NULL,
-    `inventory_id` BIGINT NOT NULL,
+    `product_id` VARCHAR(50) NOT NULL,
+    `store_id` BIGINT NOT NULL,
     `name` VARCHAR(50),
     `status` VARCHAR(50) NOT NULL,
     `quantity` INT NOT NULL,

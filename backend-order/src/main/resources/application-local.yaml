@@ -1,7 +1,10 @@
-logging:
-  level:
-    org.hibernate.SQL: DEBUG
-log4j:
-  logger:
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql: trace
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        stat: DEBUG
+#        SQL: DEBUG
+#log4j:
+#  logger:
+#    org.hibernate.SQL: debug
+#    org.hibernate.type.descriptor.sql: trace
