@@ -5,3 +5,6 @@ This is a prototype project which demonstrate to clients the ability of distribu
 Build project
 sh gradlew -x test //ignore Test
 
+
+
+https://auth0.com/blog/spring-cloud-streams-with-apache-kafka/

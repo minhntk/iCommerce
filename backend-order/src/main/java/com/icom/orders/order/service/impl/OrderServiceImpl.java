@@ -4,8 +4,8 @@ import com.icom.orders.order.controller.dto.request.OrderDTO;
 import com.icom.orders.order.controller.dto.request.OrderItemDTO;
 import com.icom.orders.order.entity.Order;
 import com.icom.orders.order.entity.OrderItem;
-import com.icom.orders.order.repository.OrderItemRepository;
 import com.icom.orders.order.repository.OrderRepository;
+import com.icom.orders.order.service.OrderItemService;
 import com.icom.orders.order.service.OrderService;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
   private static final String WAITING = "WAITING";
   //private final ProductServiceClient productServiceClient;
   private final OrderRepository orderRepository;
-  private final OrderItemRepository orderItemRepository;
+  private final OrderItemService orderItemService;
 
   @Transactional
   public String addOrder(OrderDTO orderDTO) {
@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
 
     var savedOrder = orderRepository.save(order);
     var orderItems = buildOrderItems(orderDTO, savedOrder);
-    orderItemRepository.saveAll(orderItems);
+    orderItemService.addOrderItems(orderItems);
     return "success";
   }
 

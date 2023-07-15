@@ -8,3 +8,10 @@
 #  logger:
 #    org.hibernate.SQL: debug
 #    org.hibernate.type.descriptor.sql: trace
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.transaction: DEBUG
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.transaction.interceptor: TRACE
+    org.hibernate.engine.transaction.internal.TransactionImpl: DEBUG
